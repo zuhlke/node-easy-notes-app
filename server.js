@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     res.json({"message": "Welcome to EasyNotes application. Take notes quickly. Organise and keep track of all your notes."});
 });
 
-app.listen(3000, () => {
+app.listen(8080, () => {
     console.log("Server is listening on port 3000");
 });
 
