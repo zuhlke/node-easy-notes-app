@@ -20,7 +20,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(dbConfig.url)
+mongoose.connect(dbConfig.url, { useNewUrlParser: true })
 .then(() => {
     console.log("Successfully connected to the database.");
 })
