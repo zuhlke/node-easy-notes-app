@@ -1,7 +1,7 @@
-set -x
+#!/usr/bin/env bash
 
-gcloud config set project zuhlke-kubernetes-codelab
-gcloud config set compute/zone europe-west2-c
+cd "${0%/*}"
+. common_config.sh
 kubectl delete statefulset mongo
 kubectl delete svc mongo
 kubectl delete pvc -l role=mongo
