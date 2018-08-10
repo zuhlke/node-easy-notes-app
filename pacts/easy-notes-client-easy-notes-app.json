@@ -1,0 +1,37 @@
+{
+  "consumer": {
+    "name": "easy-notes-client"
+  },
+  "provider": {
+    "name": "easy-notes-app"
+  },
+  "interactions": [
+    {
+      "description": "a get request to get all notes",
+      "request": {
+        "method": "GET",
+        "path": "/notes",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "title": "first notes",
+            "content": "Wa hahaha"
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "0.0.0"
+    }
+  }
+}

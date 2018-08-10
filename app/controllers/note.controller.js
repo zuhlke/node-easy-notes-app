@@ -85,6 +85,14 @@ exports.update = (req, res) => {
     });
 };
 
+exports.deleteAll = (req, res) => {
+    Note.remove({})
+        .then(res.send("All notes deleted successfully."))
+        .catch(err => {
+            return res.status(500).send({message: "Could not delete any notes: " + err.message});
+        });
+};
+
 exports.delete = (req, res) => {
     Note.findByIdAndRemove(req.params.noteId)
     .then(note => {
