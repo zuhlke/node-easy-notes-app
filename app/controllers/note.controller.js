@@ -80,7 +80,7 @@ exports.update = (req, res) => {
 
 exports.deleteAll = (req, res) => {
     service.deleteAll()
-        .then(res.send("All notes deleted successfully."))
+        .then(res.send({message: "All notes deleted successfully."}))
         .catch(err => {
             return res.status(500).send({message: "Could not delete any notes: " + err.message});
         });
@@ -95,7 +95,11 @@ exports.delete = (req, res) => {
             });
         }
 
-        res.send({message: "Note deleted successfully."});
+        res.send(
+            {
+                message: "Note deleted successfully.",
+                note: note
+            });
     }).catch(err => {
         if(err.kind === 'ObjectId' || err.name === 'NotFound') {
             return res.status(404).send({
