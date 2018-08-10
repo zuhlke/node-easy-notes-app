@@ -86,8 +86,8 @@ exports.deleteAll = (req, res) => {
         });
 };
 
-exports.delete = (req, res) => {
-    service.delete(req.params.noteId)
+exports.deleteOne = (req, res) => {
+    service.deleteOne(req.params.noteId)
     .then(note => {
         if(!note) {
             return res.status(404).send({

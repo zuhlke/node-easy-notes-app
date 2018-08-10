@@ -29,6 +29,6 @@ exports.deleteAll = () => {
     return Note.remove({});
 };
 
-exports.delete = noteId => {
+exports.deleteOne = noteId => {
     return Note.findByIdAndRemove(noteId);
 };
