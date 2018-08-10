@@ -1,4 +1,5 @@
 const Note = require('../models/note.model.js');
+const service = require('../services/note.service.js');
 
 exports.create = (req, res) => {
     if(!req.body.content) {
@@ -7,12 +8,7 @@ exports.create = (req, res) => {
         });
     }
 
-    const note = new Note({
-        title: req.body.title || "Untitled Note",
-        content: req.body.content
-    });
-
-    note.save()
+    service.create(req.body)
     .then(data => {
         res.send(data);
     }).catch(err => {
@@ -23,7 +19,7 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-    Note.find()
+    service.findAll()
     .then(notes => {
         res.send(notes);
     }).catch(err => {
@@ -34,7 +30,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findOne = (req, res) => {
-    Note.findById(req.params.noteId)
+    service.findOne(req.params.noteId)
     .then(note => {
         if(!note) {
             return res.status(404).send({
@@ -62,10 +58,7 @@ exports.update = (req, res) => {
         });
     }
 
-    Note.findByIdAndUpdate(req.params.noteId, {
-        title: req.body.title || "Untitled Note",
-        content: req.body.content
-    }, {new: true})
+    service.update(req.params.noteId, req.body)
     .then(note => {
         if(!note) {
             return res.status(404).send({
@@ -86,7 +79,7 @@ exports.update = (req, res) => {
 };
 
 exports.deleteAll = (req, res) => {
-    Note.remove({})
+    service.deleteAll()
         .then(res.send("All notes deleted successfully."))
         .catch(err => {
             return res.status(500).send({message: "Could not delete any notes: " + err.message});
@@ -94,7 +87,7 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    Note.findByIdAndRemove(req.params.noteId)
+    service.delete(req.params.noteId)
     .then(note => {
         if(!note) {
             return res.status(404).send({
