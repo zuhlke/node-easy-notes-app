@@ -1,6 +1,14 @@
 const { Verifier } = require('@pact-foundation/pact');
 const { app } = require('../server.js');
 
+const path = require('path')
+
+const getPactFilePath = (relativePath) => {
+  const dir = path.dirname(path.dirname(module.filename));
+  console.log(dir); // show the working dir
+  return dir + '/' + relativePath;
+}
+
 app.post('/setup', (req, res) => {
     console.log('Setup state:', req.body.state);
     res.end();
@@ -14,7 +22,7 @@ describe('Pact Verification', () => {
             provider: 'easy-notes-app',
             providerBaseUrl: 'http://localhost:8082',
             providerStatesSetupUrl: 'http://localhost:8082/setup',
-            pactUrls: ['/Users/yuwa/Projects/node-easy-notes-app/pacts/easy-notes-client-easy-notes-app.json']
+            pactUrls: [ getPactFilePath('pacts/easy-notes-client-easy-notes-app.json')]
         };
 
         return new Verifier().verifyProvider(opts)
