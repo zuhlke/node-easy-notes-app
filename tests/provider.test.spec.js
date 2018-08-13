@@ -1,34 +1,53 @@
-const { Verifier } = require('@pact-foundation/pact');
-const { app } = require('../server.js');
-
 const path = require('path')
+const { Verifier } = require('@pact-foundation/pact');
+const config = require('../config/pact.test.config.js');
+const { app, dbConnection } = require('../app/app.js');
 
-const getPactFilePath = (relativePath) => {
+let server;
+
+beforeAll(() => {
+    dbConnection.connect().then(() => {
+        app.post('/setup', (req, res) => {
+            console.log('Setup state:', req.body.state);
+            return res.status(200).send('');
+        });
+
+        server = app.listen(config.port, () => {
+            console.log("Server is listening on port", config.port);
+        });
+
+        return server;
+    });
+});
+
+afterAll(() => {
+    server.close(() => {
+        console.log('Closed down application server on port', config.port);
+        return dbConnection.close();
+    });
+});
+
+function getPactFilePath (relativePath) {
   const dir = path.dirname(path.dirname(module.filename));
-  console.log(dir); // show the working dir
   return dir + '/' + relativePath;
 }
 
-app.post('/setup', (req, res) => {
-    console.log('Setup state:', req.body.state);
-    res.end();
-});
-
 // Verify that the provider meets all consumer expectations
 describe('Pact Verification', () => {
-    it('should validate the expectations of Matching Service', () => {
+
+    it('should validate the expectations of Matching Service', (done) => {
 
         let opts = {
             provider: 'easy-notes-app',
-            providerBaseUrl: 'http://localhost:8082',
-            providerStatesSetupUrl: 'http://localhost:8082/setup',
-            pactUrls: [ getPactFilePath('pacts/easy-notes-client-easy-notes-app.json')]
+            providerBaseUrl: config.url,
+            providerStatesSetupUrl: config.url + '/setup',
+            pactUrls: [ getPactFilePath('pacts/easy-notes-client-easy-notes-app.json') ]
         };
 
         return new Verifier().verifyProvider(opts)
             .then(output => {
-                console.log('Pact Verification Complete!')
-                console.log(output)
-            });
+                console.log('Pact Verification Complete!');
+                console.log(output);
+            }).finally(done);
     });
 });

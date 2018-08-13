@@ -8,10 +8,10 @@
   "interactions": [
     {
       "description": "a get request to get all notes",
+      "providerState": "Has no notes",
       "request": {
         "method": "GET",
         "path": "/notes",
-        "query": "",
         "headers": {
           "Accept": "application/json"
         }
@@ -19,35 +19,27 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json; charset=utf-8"
         },
         "body": [
-          {
-            "title": "first notes",
-            "content": "Wa hahaha"
-          }
+
         ]
       }
     },
     {
-      "description": "a post request to create a new note",
-      "providerState": "Has no notes",
+      "description": "a get request to get all notes",
+      "providerState": "Have a note with id 1",
       "request": {
-        "method": "POST",
+        "method": "GET",
         "path": "/notes",
         "headers": {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        "body": {
-          "title": "first notes",
-          "content": "Wa hahaha"
+          "Accept": "application/json"
         }
       },
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json; charset=utf-8"
         },
         "body": [
           {
@@ -75,60 +67,12 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": [
-          {
-            "title": "first notes",
-            "content": "Wa hahaha"
-          }
-        ]
-      }
-    },
-    {
-      "description": "a get request to get a specific note with note id",
-      "providerState": "Have a note with id 1",
-      "request": {
-        "method": "GET",
-        "path": "/notes/1",
-        "headers": {
-          "Accept": "application/json"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
-          "Content-Type": "application/json"
-        },
-        "body": [
-          {
-            "title": "first notes",
-            "content": "Wa hahaha"
-          }
-        ]
-      }
-    },
-    {
-      "description": "a get request to get all notes",
-      "providerState": "Has only one note",
-      "request": {
-        "method": "GET",
-        "path": "/notes",
-        "headers": {
-          "Accept": "application/json"
-        }
-      },
-      "response": {
-        "status": 200,
-        "headers": {
           "Content-Type": "application/json; charset=utf-8"
         },
-        "body": [
-          {
-            "title": "first notes",
-            "content": "Wa hahaha"
-          }
-        ]
+        "body": {
+          "title": "first notes",
+          "content": "Wa hahaha"
+        }
       }
     },
     {
@@ -144,7 +88,7 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json; charset=utf-8"
         },
         "body": {
           "message": "Note deleted successfully.",
@@ -157,7 +101,6 @@
     },
     {
       "description": "a delete request to delete all notes",
-      "providerState": "Have a note with id 1",
       "request": {
         "method": "DELETE",
         "path": "/notes",
@@ -168,11 +111,64 @@
       "response": {
         "status": 200,
         "headers": {
-          "Content-Type": "application/json; charset=utf8"
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "message": "All notes deleted successfully."
+        }
+      }
+    },
+    {
+      "description": "a post request to create a new note",
+      "providerState": "Has no notes",
+      "request": {
+        "method": "POST",
+        "path": "/notes",
+        "headers": {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "title": "first notes",
+          "content": "Wa hahaha"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "_id": "0001",
+          "title": "first notes",
+          "content": "Wa hahaha"
+        },
+        "matchingRules": {
+          "$.body": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "a get request to get a specific note with note id",
+      "providerState": "Have a note with id 1",
+      "request": {
+        "method": "GET",
+        "path": "/notes/1",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
         },
         "body": [
           {
-            "message": "All notes deleted successfully."
+            "title": "first notes",
+            "content": "Wa hahaha"
           }
         ]
       }

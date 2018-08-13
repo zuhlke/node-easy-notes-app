@@ -1,34 +1,37 @@
 const Note = require('../models/note.model.js');
 
+exports.noteService = () => {
+    return {
+        create: note => {
+            const newNote = new Note({
+                title: note.title || "Untitled Note",
+                content: note.content
+            });
 
-exports.create = note => {
-    const newNote = new Note({
-        title: note.title || "Untitled Note",
-        content: note.content
-    });
+            return newNote.save();
+        },
 
-    return newNote.save();
-};
+        findAll: () => {
+            return Note.find();
+        },
 
-exports.findAll = () => {
-    return Note.find();
-};
+        findOne: noteId => {
+            return Note.findById(noteId);
+        },
 
-exports.findOne = noteId => {
-    return Note.findById(noteId);
-};
+        update: (noteId, note) => {
+            return Note.findByIdAndUpdate(noteId, {
+                title: note.title || "Untitled Note",
+                content: note.content
+            }, {new: true});
+        },
 
-exports.update = (noteId, note) => {
-    return Note.findByIdAndUpdate(noteId, {
-        title: note.title || "Untitled Note",
-        content: note.content
-    }, {new: true});
-};
+        deleteAll: () => {
+            return Note.remove({});
+        },
 
-exports.deleteAll = () => {
-    return Note.remove({});
-};
-
-exports.deleteOne = noteId => {
-    return Note.findByIdAndRemove(noteId);
+        deleteOne: noteId => {
+            return Note.findByIdAndRemove(noteId);
+        }
+    };
 };
