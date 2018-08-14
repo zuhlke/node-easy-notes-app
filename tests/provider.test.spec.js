@@ -1,5 +1,6 @@
 const path = require('path')
 const { Verifier } = require('@pact-foundation/pact');
+//const { VerifierOptions } = require('@pact-foundation/pact-node');
 const config = require('../config/pact.test.config.js');
 const { app, dbConnection } = require('../app/app.js');
 
@@ -38,6 +39,7 @@ describe('Pact Verification', () => {
     it('should validate the expectations of Matching Service', (done) => {
 
         let opts = {
+            logLevel: 'DEBUG',
             provider: 'easy-notes-app',
             providerBaseUrl: config.url,
             providerStatesSetupUrl: config.url + '/setup',
@@ -48,6 +50,9 @@ describe('Pact Verification', () => {
             .then(output => {
                 console.log('Pact Verification Complete!');
                 console.log(output);
-            }).finally(done);
+                done();
+            }).catch(err => {
+                done(err);
+            });
     });
 });
