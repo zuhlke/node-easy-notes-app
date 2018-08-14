@@ -1,6 +1,5 @@
 const path = require('path')
 const { Verifier } = require('@pact-foundation/pact');
-//const { VerifierOptions } = require('@pact-foundation/pact-node');
 const config = require('../config/pact.test.config.js');
 const { app, dbConnection } = require('../app/app.js');
 

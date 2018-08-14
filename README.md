@@ -14,3 +14,12 @@ The easiest way to start one running is to run the command
 mongo_setup_local.sh
 ```
 in the `scripts` folder.
+
+After copying the pacts file from the consumer
+side into the `pacts` folder, run the tests as follows:
+```
+npm run pactTest
+```
+
+This verifies the conformance of the API to the contract expressed
+in the pact file.
