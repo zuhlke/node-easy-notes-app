@@ -1,4 +1,3 @@
-const Note = require('../models/note.model.js');
 const services = require('../services/note.service.js');
 const noteService = services.noteService();
 

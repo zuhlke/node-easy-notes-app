@@ -2,15 +2,13 @@ const path = require('path')
 const { Verifier } = require('@pact-foundation/pact');
 const config = require('../config/pact.test.config.js');
 const { app, dbConnection } = require('../app/app.js');
+const setup = require('./provider.test.setup.js').stateService();
 
 let server;
 
 beforeAll(() => {
     dbConnection.connect().then(() => {
-        app.post('/setup', (req, res) => {
-            console.log('Setup state:', req.body.state);
-            return res.status(200).send('');
-        });
+        app.post('/setup', setup.moveToRequestedState);
 
         server = app.listen(config.port, () => {
             console.log("Server is listening on port", config.port);
@@ -43,7 +41,7 @@ describe('Pact Verification', () => {
             .then(output => {
                 console.log('Pact Verification Complete!');
                 console.log(output);
-                done();
-            }).catch(done);
+            }).then(done)
+            .catch(done);
     });
 });

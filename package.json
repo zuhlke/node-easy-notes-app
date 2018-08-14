@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tests",
-    "pactTest": "export NODE_ENV=pactTest && jest --testRegex \"/*(.test.spec.js)\" --runInBand --detectOpenHandles"
+    "pactTest": "export NODE_ENV=pactTest && jest --testRegex \"/*(.test.spec.js)\" --runInBand --detectOpenHandles --forceExit"
   },
   "author": "Iris",
   "license": "ISC",
