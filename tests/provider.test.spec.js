@@ -28,22 +28,16 @@ afterAll(() => {
     });
 });
 
-function getPactFilePath (relativePath) {
-  const dir = path.dirname(path.dirname(module.filename));
-  return dir + '/' + relativePath;
-}
-
 // Verify that the provider meets all consumer expectations
 describe('Pact Verification', () => {
 
     it('should validate the expectations of Matching Service', (done) => {
 
         let opts = {
-            logLevel: 'DEBUG',
             provider: 'easy-notes-app',
             providerBaseUrl: config.url,
             providerStatesSetupUrl: config.url + '/setup',
-            pactUrls: [ getPactFilePath('pacts/easy-notes-client-easy-notes-app.json') ]
+            pactUrls: [ path.resolve(process.cwd(), 'pacts', 'easy-notes-client-easy-notes-app.json') ]
         };
 
         return new Verifier().verifyProvider(opts)
