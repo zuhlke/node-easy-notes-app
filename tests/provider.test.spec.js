@@ -51,8 +51,6 @@ describe('Pact Verification', () => {
                 console.log('Pact Verification Complete!');
                 console.log(output);
                 done();
-            }).catch(err => {
-                done(err);
-            });
+            }).catch(done);
     });
 });
