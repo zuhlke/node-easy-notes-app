@@ -1,4 +1,7 @@
-const services = require('../services/note.service.js');
+const services = require(
+    'pactTest' === process.env.NODE_ENV
+    ? '../../tests/note.service.wrapper.js'
+    : '../services/note.service.js');
 const noteService = services.noteService();
 
 exports.create = (req, res) => {

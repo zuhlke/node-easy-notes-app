@@ -1,4 +1,4 @@
-const services = require('../app/services/note.service.js');
+const services = require('./note.service.wrapper.js');
 const noteService = services.noteService();
 
 const expectedNotes = [
@@ -13,19 +13,39 @@ const expectedNotes = [
 ];
 
 let currentState;
+const notes = [];
+
+function doNothing() {
+    return Promise.resolve(true);
+}
 
 function addFirstNote() {
     return noteService.deleteAll().then(() => {
+        console.log('database cleared');
         return noteService.create(expectedNotes[0]);
+    }).then(note => {
+        notes[0] = note;
+        return note;
+    }).catch(err => {
+        console.log('caught exception:', err.message);
     });
 }
 
 function addSecondNote() {
-    return noteService.create(expectedNotes[1]);
+    return noteService.create(expectedNotes[1]).then(note => {
+       notes[1] = note;
+       return note;
+   }).catch(err => {
+       console.log('caught exception:', err.message);
+   });
 }
 
-function doNothing() {
-    return Promise.resolve(true);
+function deleteFirstNote() {
+    if(notes[0]) {
+        return noteService.deleteOne(notes[0]._id)
+    } else {
+        return doNothing();
+    }
 }
 
 function goToState(desiredState) {
@@ -36,11 +56,11 @@ function goToState(desiredState) {
     }
     currentState = desiredState; // for next time - assume the state change will succeed
     switch(desiredState) {
-        case 'empty': return noteService.deleteAll();
-        case 'first note': return addFirstNote();
-        case 'second note': return noteService.deleteAll().then(addSecondNote);
-        case 'two notes': return addFirstNote().then(addSecondNote);
-        default: return doNothing();
+        case 'no notes': return noteService.deleteAll(); break;
+        case 'first note': return addFirstNote(); break;
+        case 'second note': return addFirstNote().then(addSecondNote).then(deleteFirstNote); break;
+        case 'two notes': return addFirstNote().then(addSecondNote); break;
+        default: return doNothing(); break;
     }
 }
 
