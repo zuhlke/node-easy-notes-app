@@ -21,7 +21,7 @@ function doNothing() {
 
 function addFirstNote() {
     return noteService.deleteAll().then(() => {
-        console.log('database cleared');
+//        console.log('database cleared');
         return noteService.create(expectedNotes[0]);
     }).then(note => {
         notes[0] = note;
@@ -42,7 +42,9 @@ function addSecondNote() {
 
 function deleteFirstNote() {
     if(notes[0]) {
-        return noteService.deleteOne(notes[0]._id)
+        const noteId = notes[0]._id;
+        delete notes[0];
+        return noteService.deleteOne(noteId);
     } else {
         return doNothing();
     }
