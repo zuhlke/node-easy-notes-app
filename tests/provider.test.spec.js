@@ -30,11 +30,13 @@ describe('Pact Verification', () => {
 
     it('should validate the expectations of Matching Service', (done) => {
 
-        let opts = {
+        const opts = {
             provider: 'easy-notes-app',
             providerBaseUrl: config.url,
             providerStatesSetupUrl: config.url + '/setup',
-            pactUrls: [ path.resolve(process.cwd(), 'pacts', 'easy-notes-client-easy-notes-app.json') ]
+            publishVerificationResult: true,
+            providerVersion: require('../package').version,
+            pactUrls: [ 'http://localhost/pacts/provider/easy-notes-app/consumer/easy-notes-client/latest/test' ]
         };
 
         return new Verifier().verifyProvider(opts)
