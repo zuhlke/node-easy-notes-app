@@ -26,11 +26,13 @@ exports.noteService = () => {
         create: (note) => {
             return realNoteService.create(note)
             .then(newNote => {
-                const real = newNote._id;
-                const fake = findAndAllocateUnusedFake(real);
-                real2fake[real] = fake;
-//                console.log('created note and converted id', real, 'to', fake);
-                newNote._id = fake;
+                if(newNote) {
+                    const real = newNote._id;
+                    const fake = findAndAllocateUnusedFake(real);
+                    real2fake[real] = fake;
+    //                console.log('created note and converted id', real, 'to', fake);
+                    newNote._id = fake;
+                }
                 return newNote;
             });
         },
@@ -51,17 +53,21 @@ exports.noteService = () => {
             return realNoteService.findOne(fake2real[fake])
             .then(note => {
 //                console.log('found (one) note and converted id', note._id, 'to', fake);
-                note._id = fake;
+                if(note) {
+                    note._id = fake;
+                }
                 return note;
             });
         },
 
         update: (fake, note) => {
-            return realNoteService.update(fake2real[fake])
-            .then(note => {
-//                console.log('updated note and converted id', note._id, 'to', fake);
-                note._id = fake;
-                return note;
+            return realNoteService.update(fake2real[fake], note)
+            .then(newNote => {
+//                console.log('updated note and converted id', newNote._id, 'to', fake);
+                if(newNote) {
+                    newNote._id = fake;
+                }
+                return newNote;
             });
         },
 
@@ -90,7 +96,9 @@ exports.noteService = () => {
 //                console.log('deleted (one) fake id', fake, 'and real counterpart', real);
                 delete real2fake[real];
                 fake2real[fake] = null;
-                note._id = fake;
+                if(note) {
+                    note._id = fake;
+                }
                 return note;
             });
         }

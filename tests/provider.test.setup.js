@@ -53,16 +53,16 @@ function deleteFirstNote() {
 function goToState(desiredState) {
     console.log('Setup state:', desiredState);
     if(currentState === desiredState) {
-        console.log('Already in state', currentState)
+//        console.log('Already in state', currentState)
         return doNothing();
     }
     currentState = desiredState; // for next time - assume the state change will succeed
     switch(desiredState) {
-        case 'no notes': return noteService.deleteAll(); break;
-        case 'first note': return addFirstNote(); break;
-        case 'second note': return addFirstNote().then(addSecondNote).then(deleteFirstNote); break;
-        case 'two notes': return addFirstNote().then(addSecondNote); break;
-        default: return doNothing(); break;
+        case 'no notes': return noteService.deleteAll();
+        case 'first note': return addFirstNote();
+        case 'second note': return addFirstNote().then(addSecondNote).then(deleteFirstNote);
+        case 'two notes': return addFirstNote().then(addSecondNote);
+        default: return doNothing();
     }
 }
 

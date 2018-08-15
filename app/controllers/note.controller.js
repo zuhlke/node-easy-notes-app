@@ -16,7 +16,7 @@ exports.create = (req, res) => {
         res.send(data);
     }).catch(err => {
         res.status(500).send({
-            message: err.message || "Some error occurred while create note."
+            message: err.message || "Some error occurred while creating note."
         });
     });
 };
@@ -49,7 +49,7 @@ exports.findOne = (req, res) => {
         }
 
         return res.status(500).send({
-            message: "Error retrieving note with id " + req.params.noteId
+            message: "Error retrieving note with id " + req.params.noteId + ': ' + err.message
         });
     })
 };
@@ -76,7 +76,7 @@ exports.update = (req, res) => {
             });
         }
         return res.status(500).send({
-            message: "Error updating note with id " + req.params.noteId
+            message: "Error updating note with id " + req.params.noteId + ': ' + err.message
         });
     });
 };
@@ -85,7 +85,7 @@ exports.deleteAll = (req, res) => {
     noteService.deleteAll()
         .then(res.send({message: "All notes deleted successfully."}))
         .catch(err => {
-            return res.status(500).send({message: "Could not delete any notes: " + err.message});
+            return res.status(500).send({message: "Could not delete all notes: " + err.message});
         });
 };
 
@@ -110,7 +110,7 @@ exports.deleteOne = (req, res) => {
             });
         }
         return res.status(500).send({
-            message: "Could not delete note with id " + req.params.noteId
+            message: "Could not delete note with id " + req.params.noteId + ': ' + err.message
         });
     });
 };
