@@ -12,7 +12,6 @@ const expectedNotes = [
     }
 ];
 
-let currentState;
 const notes = [];
 
 function doNothing() {
@@ -52,11 +51,6 @@ function deleteFirstNote() {
 
 function goToState(desiredState) {
     console.log('Setup state:', desiredState);
-    if(currentState === desiredState) {
-//        console.log('Already in state', currentState)
-        return doNothing();
-    }
-    currentState = desiredState; // for next time - assume the state change will succeed
     switch(desiredState) {
         case 'no notes': return noteService.deleteAll();
         case 'first note': return addFirstNote();
@@ -72,7 +66,6 @@ exports.stateService = () => {
             return goToState(req.body.state).then(() => {
                 return res.status(200).send('');
             }).catch(err => {
-                currentState = null;
                 return res.status(500).send(err);
             });
         },
