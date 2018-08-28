@@ -36,7 +36,7 @@ describe('Pact Verification', () => {
             providerStatesSetupUrl: config.url + '/setup',
             publishVerificationResult: true,
             providerVersion: require('../package').version,
-            pactUrls: [ 'http://localhost/pacts/provider/easy-notes-app/consumer/easy-notes-client/latest/test' ]
+            pactUrls: [ 'http://35.242.180.87/pacts/provider/easy-notes-app/consumer/easy-notes-client/latest/test' ]
         };
 
         return new Verifier().verifyProvider(opts)
